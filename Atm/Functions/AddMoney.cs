@@ -10,51 +10,78 @@ namespace Atm.App
 {
     internal class AddMoney //: IAddMoneyToCard //, IAddMoneyToIBAN
     {
-        //static double a = new CardOwner().Balance; //a yı kullanmak için yapmıştım method a mainden göndrince gerek kalmadı
         public static double AddMoneyToCard(double a)
-           {
-           
-                Console.Clear();
-                Console.WriteLine("--------------------WELCOME----------------------");
-                Console.WriteLine("You choose 2");
-            
-            while (true)
+        {
+            string c;
+            int _bo=0;
+            Console.Clear();
+            Console.WriteLine("--------------------WELCOME----------------------");
+            Console.WriteLine("You choose 2");
+            try
             {
-                Console.WriteLine($"\nYou currently have: {a}$");
-                Console.WriteLine("\n(Please place 500$ at each time.)");
-               
-                double money = Utility.Money("add? : ");
-                if (money <= 500)
+                while (true)
                 {
-                    a += money;
-                    Console.WriteLine($"\nYou put {money}$.");
-                    Console.WriteLine($"You currently have: {a}$\n");
-                }
-                else if(money > 500 )
-                {
-                    Console.WriteLine("\nPlease place 500$ at most.");
-                    Thread.Sleep(1300);
-                    //Console.Clear();
-                    continue;
-                }
+                    Console.WriteLine($"\nYou currently have: {a}$");
+                    Console.WriteLine("\n(Please place 500$ at each time.)");
 
-                Console.WriteLine("To add 'N' to see your balance press 'B' to exit press 'Q' ");
-                char c = Convert.ToChar(Console.ReadLine());
-                if(c == Convert.ToChar(ConsoleKey.N))
-                {
-                    continue;
+                    double money = Utility.Money("add? : ");
+                    if (money <= 500)
+                    {
+                        a += money;
+                        Console.WriteLine($"\nYou put {money}$.");
+                        Console.WriteLine($"You currently have: {a}$\n");
+                    }
+                    else if (money > 500)
+                    {
+                        Console.WriteLine("\nPlease place 500$ at most.");
+                        Thread.Sleep(1300);
+                        //Console.Clear();
+                        continue;
+                    }
+
+
+                    //bu kısmı console to continue için yanlış bir şeylere basmasın diye yaptım
+                    while (true)
+                    {
+                        Console.WriteLine("To continue adding press 'N' , \nTo see your balance 'B' \nTo exit press 'Q' ");
+                        c = Convert.ToString(Console.ReadLine());  //char yapınca birkaç karakter girince try-catch e düşemeden patlıyodu
+                        if (c == Convert.ToString(ConsoleKey.N))
+                        {
+                            _bo =1;
+                            Console.Clear();
+                            break;  //while döngüsünü kırıcak if _bo döngüsüne giricek _bo=1 old için continue olucak o da en baştaki while a göndercek ve tekrar tekrar para ekleyebilcem
+                        }
+                        else if (c == Convert.ToString(ConsoleKey.B))
+                        {
+                            _bo = 2;
+                            Choice.ToContinueVariables(_bo);
+                            break; //while döngüsünü kırıyor a choice deki switch-case nin add ile olana gönderiyor orda da zaten gösteriyor balanceyi 
+                        }
+                        else if (c == Convert.ToString(ConsoleKey.Q))
+                        {
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("\nİnvalid expression. Try again.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Thread.Sleep(1500);
+                            Console.Clear();
+                            continue;
+                        }
+                    
+                    }    
+                    if(_bo == 1) { continue; }
+                    else { break; }
                 }
-                else if(c == Convert.ToChar(ConsoleKey.B))
-                {
-                    break;
-                }
-                else if ( c == Convert.ToChar(ConsoleKey.Q))
-                {
-                    Environment.Exit(0);
-                }
-                break;
+                return a;
             }
-            return a;
+            catch (Exception)
+            {
+                Console.WriteLine(" Something wrong.");
+                return -1;
+            }
         }
     }
 }

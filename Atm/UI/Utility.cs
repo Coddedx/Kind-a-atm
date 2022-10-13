@@ -21,22 +21,25 @@ namespace Atm.UI
             Console.WriteLine($"How much money do you wanna {n} ");   
 
             string _charList = Console.ReadLine();  // Burda consola girilenleri char olarak alıp sayıya öyle çeviriyorum ki sadece sayı giriliyorsa işlemleri yapabilsin
-            List<char> list = new List<char>(); //charlı list oluşturuyorum
-            string _money = "" ;   
+            string _money = "" ;
+            
             foreach (char c in _charList)
             {
                 if (c>=48 && c<=57)
                 {
                     string _m=c.ToString() ;
                     _money += _m;
-                    return int.Parse(_money);
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine("\nPara girişi doğru değildir. Consolu kapatıyorum...");
+                    Thread.Sleep(1300);
+                    Environment.Exit(0);
                 }
               
             }
-            Console.WriteLine("\nPara girişi doğru değildir. Consolu kapatıyorum...");
-            Thread.Sleep(1300);
-            Environment.Exit(0);
-            return 0;           
+            return int.Parse(_money);     
         }
     }
 }

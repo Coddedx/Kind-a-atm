@@ -2,6 +2,7 @@
 using Atm.Functions;
 using Atm.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -10,8 +11,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-//  CardOwner _gg = new CardOwner();
-//string hh = _gg.ToString();
 
 namespace Atm
 {
@@ -19,85 +18,75 @@ namespace Atm
     {
         static void Main(string[] args)
         {
-            //public static string firstName;
+            int cardNo=0;  //card no pıni console den istediğim içeri alınca card
+            int cardPın=0;
+            int login = 3;
 
             List<CardOwner> person = new List<CardOwner>();
             person.Add(new CardOwner() { FirstName = "rumeysa", LastName = "cetinkaya", CardNo = 12345, CardPın = 12348, Balance = 1255.5 });
             person.Add(new CardOwner() { FirstName = "ibrahim", LastName = "ocakcı", CardNo = 34567, CardPın = 3458, Balance = 2145 });
             person.Add(new CardOwner() { FirstName = "elif", LastName = "akca", CardNo = 56789, CardPın = 56788, Balance = 5152.7 });
 
-            AppScreen.Welcome(); //Obje oluşturmadan classİsmi.Metodİsmi diyip çağırabiliyoruz
+            AppScreen.Welcome();
+            CardOwner per = new CardOwner();
 
-            //while (true)
-            //{
+            while (true)
+            {
                 string firstName = Convert.ToString(Utility.UserInfo("First name: "));
                 string lastName = Convert.ToString(Utility.UserInfo("Last name: "));
-                //int i = 0;
-                //if (person[i].FirstName == firstName && person[i].LastName == lastName)
-                //{
-                    //string[] x = { firstName , lastName };
-                    //return x;
-                    //break;
-                //}
-                //else
-                //{
-                //    continue;
-                //}
-            //}
+                per = person.Find(p => p.FirstName == firstName && p.LastName == lastName); //bu isimde listede kişi varsa alıp yeni nesne içine at
 
-            for (int i = 0; i < person.Count; i++)
-            {
-                if (person[i].FirstName== firstName && person[i].LastName == lastName)
+                if (per != null)  // aldığımız veriler listemizdekilerde varsa işlemleri yapıyor ??????? 
                 {
-                  //  while (true)  //doğru girene kadar card no pın isticektim ya da 3 hakkın olsun
-                   // {
-                        int cardNo = int.Parse(Utility.UserInfo("card number: "));
-                        int cardPın = int.Parse(Utility.UserInfo("PIN: ")); ;
-                   // }
-                    if (cardNo == person[i].CardNo && cardPın == person[i].CardPın)
+                    for (int i = 0; i < 3; i++)
                     {
                         Console.Clear();
-                        Console.WriteLine($"Welcome  {firstName} {lastName}. ");
-                        Console.WriteLine("--------------------------------------");
-                        int choice = AppScreen.Menu();
-                        switch(choice)
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine($"----------------Welcome {per.FirstName} {per.LastName} ----------------------\n\n");
+                        Console.WriteLine($"(You can only try {login} times.)\n");
+                        cardNo = int.Parse(Utility.UserInfo("card number: "));   //card no-pın döngü içine atsam dışarda nasıl kullancam?????????
+                        cardPın = int.Parse(Utility.UserInfo("PIN: "));
+                        login--;
+                        if (per.CardPın != cardPın && per.CardNo != cardNo)
                         {
-                            case 1:
-                                double balance = Withdrawal.WithdrawalFromCard(person[i].Balance);
-                                Console.Clear();
-                                Console.WriteLine($"Current balance is { balance }$ ");
-                                break;
-                            case 2:
-                                double a = AddMoney.AddMoneyToCard(person[i].Balance);
-                                Console.Clear();
-                                Console.WriteLine($"Current balance is {a}$ ");
-                                break;
-                            case 3:
-                                Console.WriteLine("You choose 3");
-                                double y  = Withdrawal.WithdrawalFromCard(person[i].Balance);
-                                Console.WriteLine("Current balance is { y } $");
-                                break;
-                            case 4:
-                                LogOut.LogOutFromApp();
-                                break;
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("\n\nCard no and PIN isn't matching or one of them is wrong...");
+                            Thread.Sleep(1000);
+                            if (i < 2)
+                            {
+                                //login--;
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine($"You have {login} left.Please try again");
+                                Thread.Sleep(1300);
+                                continue;
+                            }
+                            else
+                            {
+                                Console.WriteLine("\n\nThe program is closing...");
+                                Thread.Sleep(1300);
+                                Environment.Exit(0);
+                            }
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("\n\nCard no and PIN isn't matching or one of them is wrong. Please try again...");
-                        Thread.Sleep(1000);
-                        break;  //continue diyemediğim için programı kapatıyorum
-                       // continue;
-                    }
+                        if (per.CardPın == cardPın && per.CardNo == cardNo) { break; }
+                    }   //kullanıcıya şifresine 3 giriş hakkı tanımak için
+
+                    Console.Clear();
+                    Console.WriteLine($"----------------Welcome  {per.FirstName} {per.LastName}.----------------------");
+                    int choice = AppScreen.Menu();
+
+                    Choice.ByChoice(choice, per.Balance); //Menü den aldığımız seçimi metoda yolluyoruz ki switch-case işini yapsın
                 }
-                else
+                else /*if (cardNo != person[i].CardNo && cardPın != person[i].CardPın)*/
                 {
-                    Console.WriteLine("\n\nWe don't have this member in our bank. The program is closing...");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n\nWe don't have this member in our bank. The program is closing..."); //for old için bir kere işlemleri yapıp 2.ye dönüyo(i++ old) ya da işlemleri yaptıktan sonra break dan dolayı ve burayı yazdırıyor
                     Thread.Sleep(1200);
                     Environment.Exit(0);
-                }
+
+                    //Console.ReadLine();
+
+                }  //isim soy isim yoksa listede kontrolü
             }
-            //Console.ReadLine();
         }
     }
 }
