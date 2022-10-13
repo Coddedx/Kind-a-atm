@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="App\CardOwner.cs" />
     <Compile Include="App\People.cs" />
+    <Compile Include="Functions\Choice.cs" />
     <Compile Include="Functions\Interfaces\IAddMoneyToCard.cs" />
     <Compile Include="Functions\Interfaces\IAddMoneyToIBAN.cs" />
     <Compile Include="Functions\Interfaces\IWithdrawalFromCard.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Functions\AddMoney.cs" />
     <Compile Include="Functions\LogOut.cs" />
     <Compile Include="Functions\Withdrawal.cs" />
+    <Compile Include="App\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\AppScreen.cs" />
     <Compile Include="UI\Utility.cs" />

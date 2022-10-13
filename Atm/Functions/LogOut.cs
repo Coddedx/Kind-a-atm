@@ -15,7 +15,7 @@ namespace Atm.Functions
             Console.WriteLine("--------------------WELCOME----------------------");
             Console.WriteLine("You choice 4 \n");
             Console.WriteLine("Program is closing. I'm giving your credit card. See you soon!");
-            Thread.Sleep(1700);
+            Thread.Sleep(2000);
 
         }
     }
