@@ -22,8 +22,6 @@ namespace Atm
             int cardPın=0;
             int login = 3;
 
-
-
             List<CardOwner> person = new List<CardOwner>();
             person.Add(new CardOwner() { FirstName = "rumeysa", LastName = "cetinkaya", CardNo = 12345, CardPın = 12348, Balance = 1255.5 });
             person.Add(new CardOwner() { FirstName = "ibrahim", LastName = "ocakcı", CardNo = 34567, CardPın = 3458, Balance = 2145 });
