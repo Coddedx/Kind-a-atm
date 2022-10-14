@@ -43,7 +43,7 @@ namespace Atm.App
                     //bu kısmı console to continue için yanlış bir şeylere basmasın diye yaptım
                     while (true)
                     {
-                        Console.WriteLine("To continue adding press 'N' , \nTo see your balance 'B' \nTo exit press 'Q' ");
+                        Console.WriteLine("     -To continue adding press 'N' , \n     -To see your balance and go back to Menu 'B' \n      -To exit press 'Q' ");
                         c = Convert.ToString(Console.ReadLine());  //char yapınca birkaç karakter girince try-catch e düşemeden patlıyodu
                         if (c == Convert.ToString(ConsoleKey.N))
                         {
@@ -53,7 +53,7 @@ namespace Atm.App
                         }
                         else if (c == Convert.ToString(ConsoleKey.B))
                         {
-                            _bo = 2;
+                            _bo = 2;  //
                             Choice.ToContinueVariables(_bo);
                             break; //while döngüsünü kırıyor a choice deki switch-case nin add ile olana gönderiyor orda da zaten gösteriyor balanceyi 
                         }

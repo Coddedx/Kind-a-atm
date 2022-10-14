@@ -46,9 +46,6 @@
     <Compile Include="App\CardOwner.cs" />
     <Compile Include="App\People.cs" />
     <Compile Include="Functions\Choice.cs" />
-    <Compile Include="Functions\Interfaces\IAddMoneyToCard.cs" />
-    <Compile Include="Functions\Interfaces\IAddMoneyToIBAN.cs" />
-    <Compile Include="Functions\Interfaces\IWithdrawalFromCard.cs" />
     <Compile Include="App\Main.cs" />
     <Compile Include="Functions\AddMoney.cs" />
     <Compile Include="Functions\LogOut.cs" />

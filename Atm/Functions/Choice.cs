@@ -61,7 +61,7 @@ namespace Atm
                 }
                 while (true)
                 {
-                    int _cont = deger;  //HER TÜRLÜ 2 YE EŞİTLENDİĞİ İÇİN 
+                    int _cont = deger;  //Fonksiyonlardan gelen değer 2 ise yani bir önceki menü görse buraya giricek
                     if (_cont == 2)
                     {
                         Console.WriteLine("To see Menu prees 'N' \nto exit press 'Q'");

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Policy;
 using System.Text;
@@ -36,7 +37,7 @@ namespace Atm
                 string lastName = Convert.ToString(Utility.UserInfo("Last name: "));
                 per = person.Find(p => p.FirstName == firstName && p.LastName == lastName); //bu isimde listede kişi varsa alıp yeni nesne içine at
 
-                if (per != null)  // aldığımız veriler listemizdekilerde varsa işlemleri yapıyor ??????? 
+                if (per != null)  // aldığımız veriler listemizdekilerde varsa işlemleri yapıyor 
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -44,15 +45,31 @@ namespace Atm
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine($"----------------Welcome {per.FirstName} {per.LastName} ----------------------\n\n");
                         Console.WriteLine($"(You can only try {login} times.)\n");
-                        cardNo = int.Parse(Utility.UserInfo("card number: "));   //card no-pın döngü içine atsam dışarda nasıl kullancam?????????
-                        cardPın = int.Parse(Utility.UserInfo("PIN: "));
-                        login--;
-                        if (per.CardPın != cardPın && per.CardNo != cardNo)
+                        string charNoList = Utility.UserInfo("card number: ");
+                        string charPınList = Utility.UserInfo("PIN: ");
+
+                        try
+                        {
+                            cardNo = int.Parse(charNoList);
+                            cardPın = int.Parse(charPınList);
+                        }
+                        catch
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("\n\nCard no and PIN isn't matching or one of them is wrong...");
+                            Console.WriteLine("\nİnvalid expression.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Thread.Sleep(1300);
+                        }
+              
+
+
+                        login--;
+                        if (per.CardPın != cardPın || per.CardNo != cardNo)  //Card pın/no yanlışlığını kont edebilmek için
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("\n\nEither of them is wrong...");
                             Thread.Sleep(1000);
-                            if (i < 2)
+                            if (i < 2)  //kullanıcıya şifresine 3 giriş hakkı tanımak için
                             {
                                 //login--;
                                 Console.ForegroundColor = ConsoleColor.Green;
@@ -67,8 +84,11 @@ namespace Atm
                                 Environment.Exit(0);
                             }
                         }
-                        if (per.CardPın == cardPın && per.CardNo == cardNo) { break; }
-                    }   //kullanıcıya şifresine 3 giriş hakkı tanımak için
+                        if (per.CardPın == cardPın && per.CardNo == cardNo) 
+                        {
+                            break;
+                        }   //şifre doğruysa döngüyü kırıp geri kalan işlemleri yapıyor
+                    }   
 
                     Console.Clear();
                     Console.WriteLine($"----------------Welcome  {per.FirstName} {per.LastName}.----------------------");

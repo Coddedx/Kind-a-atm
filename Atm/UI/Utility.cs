@@ -27,7 +27,7 @@ namespace Atm.UI
             {
                 if (c>=48 && c<=57)
                 {
-                    string _m=c.ToString() ;
+                    string _m=c.ToString();  //charlist in içinden aldığımız char ı string e çevirip m e atıcaz charlist deki tüm charlara bunu uyguladıktan sonra birleştrimiş olduğumuz money i göndercez
                     _money += _m;
                     continue;
                 }
